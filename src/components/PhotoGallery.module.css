@@ -1,0 +1,301 @@
+/* ── Slideshow container ──────────────────────── */
+.slideshow {
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ── Main image wrapper ──────────────────────── */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  cursor: zoom-in;
+  background: #111;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.slideActive {
+  opacity: 1;
+}
+
+/* ── Zoom hint ───────────────────────────────── */
+.zoomHint {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.8));
+}
+
+.imageWrapper:hover .zoomHint {
+  opacity: 0.7;
+}
+
+/* ── Navigation arrows ───────────────────────── */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.55);
+  border: 1.5px solid rgba(201, 168, 76, 0.4);
+  color: var(--gold, #c9a84c);
+  font-size: 28px;
+  line-height: 1;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+  padding: 0;
+  opacity: 0;
+}
+
+.imageWrapper:hover .arrow {
+  opacity: 1;
+}
+
+.arrow:hover {
+  background: rgba(201, 168, 76, 0.25);
+  border-color: var(--gold, #c9a84c);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.arrowLeft  { left: 10px; }
+.arrowRight { right: 10px; }
+
+/* ── Counter badge ───────────────────────────── */
+.counter {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: rgba(201, 168, 76, 0.9);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.06em;
+  backdrop-filter: blur(4px);
+}
+
+/* ── Caption ─────────────────────────────────── */
+.caption {
+  padding: 8px 16px;
+  background: rgba(0, 0, 0, 0.75);
+  font-size: 12px;
+  color: rgba(245, 237, 214, 0.8);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  text-align: center;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+/* ── Dot indicators ──────────────────────────── */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 0 4px;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.dotActive {
+  background: var(--gold, #c9a84c);
+  transform: scale(1.3);
+}
+
+/* ── Thumbnail strip ─────────────────────────── */
+.thumbStrip {
+  display: flex;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.8);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 168, 76, 0.3) transparent;
+}
+
+.thumbStrip::-webkit-scrollbar {
+  height: 3px;
+}
+.thumbStrip::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.3);
+  border-radius: 2px;
+}
+
+.thumb {
+  flex-shrink: 0;
+  width: 52px;
+  height: 40px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1.5px solid rgba(201, 168, 76, 0.2);
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+}
+
+.thumb:hover {
+  opacity: 0.85;
+  border-color: rgba(201, 168, 76, 0.6);
+}
+
+.thumbActive {
+  opacity: 1;
+  border-color: var(--gold, #c9a84c);
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.4);
+}
+
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── Lightbox ────────────────────────────────── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.96);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: lbFadeIn 0.25s ease both;
+  backdrop-filter: blur(6px);
+}
+
+@keyframes lbFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(201, 168, 76, 0.4);
+  color: var(--gold, #c9a84c);
+  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.lightboxClose:hover {
+  background: rgba(201, 168, 76, 0.2);
+  transform: rotate(90deg);
+}
+
+.lightboxArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1.5px solid rgba(201, 168, 76, 0.4);
+  color: var(--gold, #c9a84c);
+  font-size: 36px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+  padding: 0;
+}
+
+.lightboxArrow:hover {
+  background: rgba(201, 168, 76, 0.2);
+  border-color: var(--gold, #c9a84c);
+}
+
+.lightboxLeft  { left: 20px; }
+.lightboxRight { right: 20px; }
+
+.lightboxImg {
+  max-width: 88vw;
+  max-height: 80vh;
+  border-radius: 8px;
+  border: 2px solid rgba(201, 168, 76, 0.35);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  animation: lbScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  object-fit: contain;
+}
+
+@keyframes lbScaleIn {
+  from { opacity: 0; transform: scale(0.88); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.lightboxCaption {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: rgba(245, 237, 214, 0.85);
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.lightboxCounter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: rgba(201, 168, 76, 0.7);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 0.08em;
+}

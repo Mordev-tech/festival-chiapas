@@ -100,6 +100,8 @@ export interface AdminProps {
   onUpdateSocialLinks?: (links: Record<string, string>) => void
   nativePhotos?: Record<string, Photo[]>
   onUpdateNativePhotos?: (key: string, photos: Photo[]) => void
+  nativeEdits?: Record<string, Partial<FestivalData>>
+  onUpdateNativeData?: (key: string, data: Partial<FestivalData>) => void
 }
 
 export interface SocialIconProps {

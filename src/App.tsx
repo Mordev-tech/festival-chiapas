@@ -47,6 +47,15 @@ const App: FC = () => {
     }
   })
 
+  // Text/data edits by admin to native festivals
+  const [nativeEdits, setNativeEdits] = useState<Record<string, Partial<import('./types').FestivalData>>>(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem('ktch_nativeEdits') || '{}')
+    } catch {
+      return {}
+    }
+  })
+
   const baseT = i18n[lang] ?? i18n.es
 
   const mergedKeys = useMemo(
@@ -67,12 +76,13 @@ const App: FC = () => {
     // Apply admin-added extra photos to native festivals
     const result: typeof base = {}
     for (const key of Object.keys(base)) {
+      const edits = nativeEdits[key] || {}
       result[key] = nativePhotos[key]
-        ? { ...base[key], photos: nativePhotos[key] }
-        : base[key]
+        ? { ...base[key], ...edits, photos: nativePhotos[key] }
+        : { ...base[key], ...edits }
     }
     return result
-  }, [baseT, customFestivals, nativePhotos])
+  }, [baseT, customFestivals, nativePhotos, nativeEdits])
 
   const modalData = modalKey ? mergedData[modalKey] : null
 
@@ -104,6 +114,14 @@ const App: FC = () => {
       // ignorar erros de armazenamento
     }
   }, [nativePhotos])
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem('ktch_nativeEdits', JSON.stringify(nativeEdits))
+    } catch {
+      // ignorar erros de armazenamento
+    }
+  }, [nativeEdits])
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -344,6 +362,8 @@ const App: FC = () => {
           onUpdateSocialLinks={setSocialLinks}
           nativePhotos={nativePhotos}
           onUpdateNativePhotos={(key, photos) => setNativePhotos((prev) => ({ ...prev, [key]: photos }))}
+          nativeEdits={nativeEdits}
+          onUpdateNativeData={(key, data) => setNativeEdits((prev) => ({ ...prev, [key]: { ...prev[key], ...data } }))}
         />
       )}
     </div>

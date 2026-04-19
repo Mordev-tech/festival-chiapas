@@ -6,7 +6,6 @@ import styles from './Modal.module.css'
 const Modal: React.FC<ModalProps> = ({ data, onClose }) => {
   if (!data) return null
 
-  // Build the photos array: prefer data.photos, fall back to legacy data.image
   const photos = (() => {
     if (data.photos && data.photos.length > 0) return data.photos
     if (data.image) return [{ id: 'legacy', url: data.image }]
@@ -18,72 +17,87 @@ const Modal: React.FC<ModalProps> = ({ data, onClose }) => {
       <div className={styles.box}>
         <button className={styles.closeBtn} onClick={onClose}>✕</button>
 
-        {/* Slideshow / single photo at the top */}
+        {/* ── PICTURE ── */}
         {photos.length > 0 && (
-          <div className={styles.galleryWrap}>
+          <div className={styles.pictureWrap}>
             <PhotoGallery photos={photos} title={data.title} />
           </div>
         )}
 
-        {/* Festival type + title */}
-        <div className={styles.subtitle}>{data.type}</div>
-        <div className={styles.title}>{data.title}</div>
+        <div className={styles.infoStack}>
 
-        {/* Dates */}
-        {data.dates && (
-          <div style={{ marginBottom: '12px', padding: '10px 12px', backgroundColor: 'rgba(201, 168, 76, 0.15)', borderLeft: '2.5px solid rgba(201, 168, 76, 0.6)', borderRadius: '4px' }}>
-            <div style={{ fontSize: '10px', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '4px', fontFamily: 'Cinzel, serif', fontWeight: '600' }}>
-              📅 Datas
+          {/* ── INFO 1: tipo + título + descrição ── */}
+          <div className={styles.infoBlock}>
+            <div className={styles.infoLabel}>
+              <span className={styles.infoDot} />
+              {data.type}
             </div>
-            <div style={{ fontSize: '14px', color: 'var(--gold-light)', fontWeight: '600', fontFamily: 'Cinzel, serif' }}>
-              {data.dates}
+            <div className={styles.infoTitle}>{data.title}</div>
+            {data.municipality && (
+              <div className={styles.infoMunicipality}>📍 {data.municipality}</div>
+            )}
+            <p className={styles.infoText}>{data.text}</p>
+          </div>
+
+          {/* ── INFO 2: datas + visitantes + destaque ── */}
+          {(data.dates || data.population || data.specialty) && (
+            <div className={styles.infoBlock}>
+              <div className={styles.infoLabel}>
+                <span className={styles.infoDot} />
+                Detalhes
+              </div>
+              <div className={styles.infoGrid}>
+                {data.dates && (
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoItemIcon}>📅</span>
+                    <div>
+                      <div className={styles.infoItemLabel}>Datas</div>
+                      <div className={styles.infoItemValue}>{data.dates}</div>
+                    </div>
+                  </div>
+                )}
+                {data.population && (
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoItemIcon}>👥</span>
+                    <div>
+                      <div className={styles.infoItemLabel}>Visitantes</div>
+                      <div className={styles.infoItemValue}>{data.population}</div>
+                    </div>
+                  </div>
+                )}
+                {data.specialty && (
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoItemIcon}>⭐</span>
+                    <div>
+                      <div className={styles.infoItemLabel}>Destaque</div>
+                      <div className={styles.infoItemValue}>{data.specialty}</div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Municipality */}
-        {data.municipality && (
-          <div style={{ marginBottom: '12px', fontSize: '12px', color: 'rgba(201, 168, 76, 0.8)', fontFamily: 'Cinzel, serif' }}>
-            📍 {data.municipality}
-          </div>
-        )}
-
-        <div className={styles.text}>{data.text}</div>
-
-        {/* Additional details */}
-        {(data.population || data.specialty || data.history) && (
-          <div style={{ marginTop: '20px' }}>
-            {data.population && (
-              <div style={{ marginBottom: '12px', paddingBottom: '12px', borderBottom: '1px solid rgba(201, 168, 76, 0.2)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', fontFamily: 'Cinzel, serif' }}>
-                  Visitantes Esperados
-                </div>
-                <div style={{ fontSize: '13px', color: 'rgba(245, 237, 214, 0.9)' }}>{data.population}</div>
+          {/* ── INFO 3: história + tags ── */}
+          {(data.history || (data.tags && data.tags.length > 0)) && (
+            <div className={styles.infoBlock}>
+              <div className={styles.infoLabel}>
+                <span className={styles.infoDot} />
+                História &amp; Categorias
               </div>
-            )}
-            {data.specialty && (
-              <div style={{ marginBottom: '12px', paddingBottom: '12px', borderBottom: '1px solid rgba(201, 168, 76, 0.2)' }}>
-                <div style={{ fontSize: '11px', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', fontFamily: 'Cinzel, serif' }}>
-                  Destaque
+              {data.history && (
+                <p className={styles.infoHistory}>{data.history}</p>
+              )}
+              {data.tags && data.tags.length > 0 && (
+                <div className={styles.tags}>
+                  {data.tags.map((tag) => (
+                    <span key={tag} className={styles.tag}>{tag}</span>
+                  ))}
                 </div>
-                <div style={{ fontSize: '13px', color: 'rgba(245, 237, 214, 0.9)' }}>{data.specialty}</div>
-              </div>
-            )}
-            {data.history && (
-              <div style={{ marginBottom: '12px' }}>
-                <div style={{ fontSize: '11px', color: 'var(--gold)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '6px', fontFamily: 'Cinzel, serif' }}>
-                  História
-                </div>
-                <div style={{ fontSize: '13px', color: 'rgba(245, 237, 214, 0.9)', lineHeight: '1.5' }}>{data.history}</div>
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </div>
+          )}
 
-        <div className={styles.tags}>
-          {data.tags.map((tag) => (
-            <span key={tag} className={styles.tag}>{tag}</span>
-          ))}
         </div>
       </div>
     </div>

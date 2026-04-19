@@ -26,99 +26,184 @@
   position: relative;
   animation: slideUp 0.37s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   box-shadow: 0 8px 32px rgba(201, 168, 76, 0.15), inset 0 1px 0 rgba(201, 168, 76, 0.1);
-  max-height: 85vh;
+  max-height: 88vh;
   overflow-y: auto;
 }
-
-/* Gallery bleeds to edges, then body content gets padding */
-.galleryWrap {
-  margin: 0;
-  border-radius: 12px 12px 0 0;
-  overflow: hidden;
-}
-
-.subtitle,
-.title,
-.text,
-.tags {
-  padding-left: 32px;
-  padding-right: 32px;
-}
-
-.subtitle { padding-top: 24px; }
-.tags     { padding-bottom: 28px; }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ── PICTURE ── */
+.pictureWrap {
+  margin: 0;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+/* ── CLOSE BTN ── */
 .closeBtn {
   position: absolute;
   top: 16px;
   right: 18px;
-  background: none;
-  border: none;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 50%;
   color: var(--gold);
-  font-size: 22px;
+  font-size: 18px;
   cursor: pointer;
-  opacity: 0.65;
+  opacity: 0.85;
   transition: all 0.2s ease;
-  padding: 4px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32px;
   height: 32px;
+  z-index: 10;
 }
 
-.closeBtn:hover { 
+.closeBtn:hover {
   opacity: 1;
   transform: rotate(90deg);
-  background: rgba(201, 168, 76, 0.1);
-  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.15);
 }
 
-.subtitle {
-  font-size: 11px;
+/* ── INFO STACK ── */
+.infoStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0 0 8px 0;
+}
+
+/* ── INFO BLOCK ── */
+.infoBlock {
+  padding: 20px 28px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+  animation: fadeIn 0.3s ease both;
+}
+
+.infoBlock:last-child {
+  border-bottom: none;
+  padding-bottom: 24px;
+}
+
+/* Label row */
+.infoLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
   color: var(--gold);
-  opacity: 0.75;
-  letter-spacing: 0.2em;
-  font-family: 'Cinzel', serif;
   text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
   margin-bottom: 10px;
-  font-weight: 600;
+  opacity: 0.85;
 }
 
-.title {
+.infoDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(201, 168, 76, 0.6);
+}
+
+/* INFO 1 */
+.infoTitle {
   font-family: 'Cinzel', serif;
   color: var(--gold-light);
   font-size: 22px;
-  letter-spacing: 0.08em;
-  margin-bottom: 18px;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
   font-weight: 600;
+  line-height: 1.25;
 }
 
-.text {
+.infoMunicipality {
+  font-size: 12px;
+  color: rgba(201, 168, 76, 0.7);
+  font-family: 'Cinzel', serif;
+  margin-bottom: 12px;
+}
+
+.infoText {
   font-size: 14px;
   color: rgba(245, 237, 214, 0.88);
   line-height: 1.8;
-  margin-bottom: 24px;
+  margin: 0;
   font-family: 'IM Fell English', serif;
 }
 
+/* INFO 2 — grid */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(201, 168, 76, 0.07);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  border-radius: 8px;
+}
+
+.infoItemIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.infoItemLabel {
+  font-size: 10px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-family: 'Cinzel', serif;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.infoItemValue {
+  font-size: 13px;
+  color: rgba(245, 237, 214, 0.9);
+  font-family: 'Cinzel', serif;
+  font-weight: 500;
+}
+
+/* INFO 3 — history */
+.infoHistory {
+  font-size: 13px;
+  color: rgba(245, 237, 214, 0.82);
+  line-height: 1.7;
+  margin: 0 0 16px 0;
+  font-family: 'IM Fell English', serif;
+  font-style: italic;
+}
+
+/* Tags */
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 4px;
 }
 
 .tag {
   display: inline-block;
   border: 1.2px solid rgba(201, 168, 76, 0.5);
   border-radius: 24px;
-  padding: 6px 14px;
+  padding: 5px 13px;
   font-size: 11px;
   color: var(--gold-light);
   font-family: 'Cinzel', serif;
@@ -128,7 +213,7 @@
 }
 
 .tag:hover {
-  background: rgba(201, 168, 76, 0.15);
+  background: rgba(201, 168, 76, 0.18);
   border-color: var(--gold-light);
   box-shadow: 0 0 8px rgba(201, 168, 76, 0.2);
 }

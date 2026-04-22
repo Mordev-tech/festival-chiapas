@@ -3,8 +3,9 @@ import { i18n, FESTIVAL_KEYS } from '../i18n/translations'
 import type { AdminProps, LanguageSection, AdminFormData, CustomFestival, FestivalData, Photo } from '../types'
 import styles from '../App.module.css'
 import { Save, Trash2, Plus, X, Flag, Check, Edit, Lock, Image as ImageIcon } from 'lucide-react'
+import logoSrc from '../img/logo.jpeg'
 
-const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity, onClose, lang = 'es', socialLinks = {}, onUpdateSocialLinks, nativePhotos = {}, onUpdateNativePhotos, nativeEdits = {}, onUpdateNativeData }) => {
+const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity, onClose, lang = 'es', socialLinks = {}, onUpdateSocialLinks, nativePhotos = {}, onUpdateNativePhotos, heroImage = null, onUpdateHeroImage }) => {
   const baseT = i18n[lang] ?? i18n.es
   const [activeTab, setActiveTab] = useState<'add' | 'list' | 'languages'>('add')
   const [editingKey, setEditingKey] = useState<string | null>(null)
@@ -28,8 +29,8 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
 
     onAddCity({
       label: formData.label.trim(),
-      type: formData.type.trim() || 'Categoría',
-      text: formData.text.trim() || 'Sin descripción.',
+      type: formData.type.trim() || 'Categoria',
+      text: formData.text.trim() || 'Sem descrição.',
       population: formData.population.trim() || '',
       specialty: formData.specialty.trim() || '',
       history: formData.history.trim() || '',
@@ -103,7 +104,7 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
               letterSpacing: '0.08em',
             }}
           >
-            <Plus size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Agregar
+            <Plus size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Adicionar
           </button>
           <button
             onClick={() => setActiveTab('list')}
@@ -147,48 +148,48 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
         {activeTab === 'add' && (
           <div>
             <p className={styles.pagesHint}>
-              Agrega información completa para el nuevo festival.
+              Adicione informações completas para o novo festival.
             </p>
             <form className={styles.modalForm} onSubmit={handleAddCity}>
               <label className={styles.modalLabel}>
-                Nombre del Festival *
+                Nome do Festival *
                 <input
                   className={styles.modalInput}
                   value={formData.label}
                   onChange={(e) => handleInputChange('label', e.target.value)}
-                  placeholder="Ej: Festival de Primavera"
+                  placeholder="Ex: Festival de Primavera"
                   required
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Tipo / Categoría
+                Tipo / Categoria
                 <input
                   className={styles.modalInput}
                   value={formData.type}
                   onChange={(e) => handleInputChange('type', e.target.value)}
-                  placeholder="Ej: Festival Cultural"
+                  placeholder="Ex: Festival Cultural"
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Descripción Principal
+                Descrição Principal
                 <textarea
                   className={styles.modalTextarea}
                   value={formData.text}
                   onChange={(e) => handleInputChange('text', e.target.value)}
-                  placeholder="Descripción detallada del festival..."
+                  placeholder="Descrição detalhada do festival..."
                   rows={4}
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Fechas del Festival
+                Datas do Festival
                 <input
                   className={styles.modalInput}
                   value={formData.dates}
                   onChange={(e) => handleInputChange('dates', e.target.value)}
-                  placeholder="Ej: 7 - 23 de Enero"
+                  placeholder="Ex: 7 - 23 de Enero"
                 />
               </label>
 
@@ -198,38 +199,38 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                   className={styles.modalInput}
                   value={formData.population}
                   onChange={(e) => handleInputChange('population', e.target.value)}
-                  placeholder="Ej: 600.000"
+                  placeholder="Ex: 600.000"
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Especialidad / Destacado
+                Especialidade / Destaque
                 <input
                   className={styles.modalInput}
                   value={formData.specialty}
                   onChange={(e) => handleInputChange('specialty', e.target.value)}
-                  placeholder="Ej: Feria de Primavera"
+                  placeholder="Ex: Feira da Primavera"
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Historia / Contexto
+                História / Contexto
                 <textarea
                   className={styles.modalTextarea}
                   value={formData.history}
                   onChange={(e) => handleInputChange('history', e.target.value)}
-                  placeholder="Cuenta la historia del festival..."
+                  placeholder="Conte a história do festival..."
                   rows={3}
                 />
               </label>
 
               <label className={styles.modalLabel}>
-                Etiquetas (separadas por coma)
+                Tags (separadas por vírgula)
                 <input
                   className={styles.modalInput}
                   value={formData.tags}
                   onChange={(e) => handleInputChange('tags', e.target.value)}
-                  placeholder="Ej: Festival, Gastronomía, Artesanía"
+                  placeholder="Ex: Festival, Gastronomia, Artesanato"
                 />
               </label>
 
@@ -244,13 +245,13 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                   onClick={resetForm}
                   className={styles.footerButton}
                 >
-                  Limpiar
+                  Limpar
                 </button>
                 <button
                   type="submit"
                   className={styles.modalButton}
                 >
-                  Agregar Festival
+                  Adicionar Festival
                 </button>
               </div>
             </form>
@@ -289,7 +290,7 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                   letterSpacing: '0.08em',
                 }}
               >
-                Secciones
+                Seções
               </button>
               <button
                 onClick={() => {
@@ -310,7 +311,7 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                   letterSpacing: '0.08em',
                 }}
               >
-                Interfaz
+                Interface
               </button>
               <button
                 onClick={() => {
@@ -331,7 +332,7 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                   letterSpacing: '0.08em',
                 }}
               >
-                Sociales
+                Sociais
               </button>
             </div>
 
@@ -345,27 +346,15 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
                     cities={customFestivals}
                     isCustom={customFestivals.some((c) => c.key === editingKey)}
                     nativePhotos={nativePhotos}
-                    nativeEdits={nativeEdits}
                     onSave={(key, data) => {
                       const custom = customFestivals.find((c) => c.key === key)
                       if (custom) {
                         onRemoveCity(key)
                         onAddCity(data)
                       } else {
-                        // Native festival — save photos + text edits
+                        // Native festival — only save photos
                         if (onUpdateNativePhotos && data.photos) {
                           onUpdateNativePhotos(key, data.photos)
-                        }
-                        if (onUpdateNativeData) {
-                          onUpdateNativeData(key, {
-                            type: data.type,
-                            text: data.text,
-                            dates: data.dates,
-                            population: data.population,
-                            specialty: data.specialty,
-                            history: data.history,
-                            tags: data.tags.split(',').map((t: string) => t.trim()).filter(Boolean),
-                          })
                         }
                       }
                       setEditingKey(null)
@@ -389,7 +378,10 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
             )}
 
             {listEditorTab === 'interface' && (
-              <EditInterfazEditor lang={lang} />
+              <>
+                <HeroEditor heroImage={heroImage} onUpdateHeroImage={onUpdateHeroImage} />
+                <EditInterfaceEditor lang={lang} />
+              </>
             )}
 
             {listEditorTab === 'social' && (
@@ -410,7 +402,7 @@ const Admin: React.FC<AdminProps> = ({ customFestivals, onAddCity, onRemoveCity,
             style={{ marginTop: '24px', width: '100%', alignSelf: 'unset' }}
             onClick={onClose}
           >
-            Volver
+            Voltar
           </button>
         )}
       </div>
@@ -436,7 +428,7 @@ const CityList: React.FC<CityListProps> = ({ baseT, baseData, customFestivals, o
   return (
     <div>
       <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '16px' }}>
-        Haz clic en un festival para editar. Los festivales nativos permiten edición completa.
+        Clique em um festival para editar. Festivais nativos são somente leitura para edição de dados básicos.
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {allKeys.map((key) => {
@@ -508,7 +500,7 @@ const CityList: React.FC<CityListProps> = ({ baseT, baseData, customFestivals, o
                     (e.target as HTMLButtonElement).style.background = 'transparent'
                   }}
                 >
-                  <Trash2 size={14} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Eliminar
+                  <Trash2 size={14} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Deletar
                 </button>
               </div>
             </div>
@@ -593,16 +585,16 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
   const saveTranslations = (): void => {
     localStorage.setItem('customTranslations', JSON.stringify(translations))
     localStorage.setItem('customSections', JSON.stringify(sections))
-    alert('¡Idiomas, Interfaz y Secciones guardados con éxito!')
+    alert('Idiomas, Interface e Seções salvas com sucesso!')
   }
 
   const autoTranslate = async (fromLang: string, toLang: string): Promise<void> => {
     setIsTranslating(true)
     try {
       let textsToTranslate: string[] = []
-      let isInterfazTab = editorTab === 'interface'
+      let isInterfaceTab = editorTab === 'interface'
 
-      if (isInterfazTab) {
+      if (isInterfaceTab) {
         textsToTranslate = uiStrings.map((key) => getTranslationValue(key, fromLang))
       } else if (selectedFestival) {
         textsToTranslate = sectionFieldKeys.map((field) => getSectionValue(selectedFestival, fromLang, field))
@@ -623,14 +615,14 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
         )
       )
 
-      if (isInterfazTab) {
+      if (isInterfaceTab) {
         const newTranslations = { ...translations }
         uiStrings.forEach((key, idx) => {
           newTranslations[toLang] = newTranslations[toLang] || {}
           newTranslations[toLang][key] = results[idx]
         })
         setTranslations(newTranslations)
-        alert('¡Traducción automática completada para Interfaz!')
+        alert('Tradução automática concluída para Interface!')
       } else if (selectedFestival) {
         const newSections = { ...sections }
         sectionFieldKeys.forEach((field, idx) => {
@@ -639,13 +631,13 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
           newSections[selectedFestival][toLang][field] = results[idx]
         })
         setSections(newSections)
-        alert(`¡Traducción automática completada para ${(baseT.data[selectedFestival] as any)?.title}!`)
+        alert(`Tradução automática concluída para ${(baseT.data[selectedFestival] as any)?.title}!`)
       }
 
       setShowTranslationModal(false)
     } catch (error) {
       console.error('Translation error:', error)
-      alert('Error al traducir automáticamente. Intenta de nuevo.')
+      alert('Erro ao traduzir automaticamente. Tente novamente.')
     } finally {
       setIsTranslating(false)
     }
@@ -668,7 +660,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
         Edite os textos da interface e seções em diferentes idiomas. Use a tradução automática ou edite manualmente.
       </p>
 
-      {/* Editor Tabs: Interfaz vs Secciones */}
+      {/* Editor Tabs: Interface vs Seções */}
       <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(201, 168, 76, 0.3)', paddingBottom: '12px' }}>
         <button
           onClick={() => setEditorTab('interface')}
@@ -686,7 +678,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
             letterSpacing: '0.05em',
           }}
         >
-          Interfaz
+          Interface
         </button>
         <button
           onClick={() => setEditorTab('sections')}
@@ -704,11 +696,11 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
             letterSpacing: '0.05em',
           }}
         >
-          Secciones
+          Seções
         </button>
       </div>
 
-      {/* Language Tabs - apenas para Interfaz */}
+      {/* Language Tabs - apenas para Interface */}
       {editorTab === 'interface' && (
         <div style={{ display: 'flex', gap: '12px', borderBottom: '1px solid rgba(201, 168, 76, 0.3)', paddingBottom: '12px' }}>
           {['es', 'en', 'pt'].map((langCode) => (
@@ -740,8 +732,8 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
           <>
             {uiStrings.map((key) => (
               <label key={key} style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                {key === 'sectionLabel' && 'Etiqueta de la Sección de Festivales'}
-                {key === 'footerBrand' && 'Marca del Pie de Página'}
+                {key === 'sectionLabel' && 'Label da Seção de Festivais'}
+                {key === 'footerBrand' && 'Marca do Rodapé'}
                 {key === 'aboutTitle' && 'Título Sobre Chiapas'}
                 {key === 'aboutText' && 'Texto Sobre Chiapas'}
 
@@ -768,7 +760,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
             {!selectedFestival ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '13px', marginBottom: '8px' }}>
-                  Selecciona un festival para editar sus secciones en diferentes idiomas.
+                  Selecione um festival para editar suas seções em diferentes idiomas.
                 </p>
                 {Object.entries(baseT.data).map(([key, festival]) => (
                   <button
@@ -835,14 +827,14 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
                       (e.target as HTMLButtonElement).style.background = 'transparent'
                     }}
                   >
-                    ← Volver
+                    ← Voltar
                   </button>
                   <h4 style={{ color: 'var(--gold)', marginTop: '12px', marginBottom: '6px', fontSize: '14px' }}>
                     {(baseT.data[selectedFestival] as any)?.title}
                   </h4>
                 </div>
 
-                {/* Language Tabs - para Secciones */}
+                {/* Language Tabs - para Seções */}
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', borderBottom: '1px solid rgba(201, 168, 76, 0.3)', paddingBottom: '12px' }}>
                   {['es', 'en', 'pt'].map((langCode) => (
                     <button
@@ -869,11 +861,11 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
                 {/* Section Fields */}
                 {sectionFieldKeys.map((field) => (
                   <label key={field} style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
-                    {field === 'text' && 'Descripción'}
-                    {field === 'type' && 'Tipo / Categoría'}
+                    {field === 'text' && 'Descrição'}
+                    {field === 'type' && 'Tipo / Categoria'}
                     {field === 'population' && 'Público / Visitantes'}
-                    {field === 'specialty' && 'Especialidad'}
-                    {field === 'history' && 'Historia'}
+                    {field === 'specialty' && 'Especialidade'}
+                    {field === 'history' && 'História'}
 
                     <textarea
                       style={{
@@ -917,7 +909,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
             letterSpacing: '0.05em',
           }}
         >
-          {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduciendo...</> : <><Flag size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Traducir</>}
+          {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzindo...</> : <><Flag size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Traduzir</>}
         </button>
 
         <button
@@ -936,7 +928,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
             letterSpacing: '0.05em',
           }}
         >
-          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Guardar Todo
+          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Salvar Tudo
         </button>
       </div>
 
@@ -959,7 +951,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ color: 'var(--gold)', fontSize: '16px', textTransform: 'uppercase', margin: 0 }}>
               <Flag size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-              Elegir Idiomas para Traducción
+              Escolher Idiomas para Tradução
             </h3>
             <button
               onClick={() => setShowTranslationModal(false)}
@@ -1075,7 +1067,7 @@ const LanguagesEditor: React.FC<LanguagesEditorProps> = ({ lang = 'es' }) => {
                 opacity: isTranslating ? 0.6 : 1,
               }}
             >
-              {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduciendo...</> : <><Check size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traducir</>}
+              {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzindo...</> : <><Check size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzir</>}
             </button>
           </div>
         </div>
@@ -1090,26 +1082,24 @@ interface CityEditorProps {
   cities: CustomFestival[]
   isCustom: boolean
   nativePhotos?: Record<string, Photo[]>
-  nativeEdits?: Record<string, Partial<FestivalData>>
   onSave: (key: string, data: AdminFormData) => void
   onCancel: () => void
   onDelete: () => void
 }
 
-const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isCustom, nativePhotos = {}, nativeEdits = {}, onSave, onCancel, onDelete }) => {
+const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isCustom, nativePhotos = {}, onSave, onCancel, onDelete }) => {
   const city = allCities[cityKey]
-  // For native festivals, apply any previously saved edits on top
-  const edits = nativeEdits[cityKey] || {}
   const [formData, setFormData] = useState<AdminFormData>({
     label: city.title,
-    type: edits.type ?? city.type,
-    text: edits.text ?? city.text,
-    population: edits.population ?? city.population ?? '',
-    specialty: edits.specialty ?? city.specialty ?? '',
-    history: edits.history ?? city.history ?? '',
-    dates: edits.dates ?? city.dates ?? '',
-    tags: ((edits.tags ?? city.tags) || []).join(', '),
+    type: city.type,
+    text: city.text,
+    population: city.population || '',
+    specialty: city.specialty || '',
+    history: city.history || '',
+    dates: city.dates || '',
+    tags: (city.tags || []).join(', '),
     image: city.image || null,
+    // For native festivals, prefer nativePhotos override; then city.photos; fallback empty
     photos: nativePhotos[cityKey] ?? city.photos ?? [],
   })
 
@@ -1143,15 +1133,18 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
           Editando: {city.title}
         </h3>
         <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '12px' }}>
-          {isCustom
-            ? <><Edit size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Personalizado — Edición completa</>
-            : <><Edit size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Nativo — Todos los campos editables</>}
+          {isCustom ? <><Edit size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Personalizado - Edição completa</> : <><Lock size={14} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} /> Nativo - Apenas fotos editáveis</>}
         </p>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px', opacity: isCustom ? 1 : 0.45, pointerEvents: isCustom ? 'auto' : 'none' }}>
+        {!isCustom && (
+          <div style={{ fontSize: '11px', color: 'rgba(201,168,76,0.7)', fontFamily: 'Cinzel, serif', padding: '6px 10px', background: 'rgba(201,168,76,0.08)', borderRadius: '6px', border: '1px solid rgba(201,168,76,0.2)' }}>
+            🔒 Campos de texto bloqueados para festivais nativos
+          </div>
+        )}
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Nombre del Festival *
+          Nome do Festival *
           <input
             style={{
               padding: '10px 12px',
@@ -1168,7 +1161,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Tipo / Categoría
+          Tipo / Categoria
           <input
             style={{
               padding: '10px 12px',
@@ -1185,7 +1178,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Descripción Principal
+          Descrição Principal
           <textarea
             style={{
               padding: '10px 12px',
@@ -1203,7 +1196,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Fechas del Festival
+          Datas do Festival
           <input
             style={{
               padding: '10px 12px',
@@ -1237,7 +1230,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Especialidad / Destacado
+          Especialidade / Destaque
           <input
             style={{
               padding: '10px 12px',
@@ -1254,7 +1247,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Historia / Contexto
+          História / Contexto
           <textarea
             style={{
               padding: '10px 12px',
@@ -1272,7 +1265,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
         </label>
 
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Etiquetas (separadas por coma)
+          Tags (separadas por vírgula)
           <input
             style={{
               padding: '10px 12px',
@@ -1321,12 +1314,12 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
               letterSpacing: '0.05em',
             }}
             onClick={() => {
-              if (confirm('¿Estás seguro de que deseas eliminar este festival?')) {
+              if (confirm('Tem certeza que deseja deletar esta cidade?')) {
                 onDelete()
               }
             }}
           >
-            <Trash2 size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Eliminar
+            <Trash2 size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Deletar
           </button>
         )}
         <button
@@ -1334,7 +1327,7 @@ const CityEditor: React.FC<CityEditorProps> = ({ cityKey, allCities, cities, isC
           className={styles.modalButton}
           onClick={handleSave}
         >
-          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Guardar
+          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Salvar
         </button>
       </div>
     </div>
@@ -1346,11 +1339,11 @@ interface SocialEditorProps {
   onUpdateSocialLinks?: (links: Record<string, string>) => void
 }
 
-interface EditInterfazEditorProps {
+interface EditInterfaceEditorProps {
   lang?: string
 }
 
-const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) => {
+const EditInterfaceEditor: React.FC<EditInterfaceEditorProps> = ({ lang = 'es' }) => {
   const [selectedLang, setSelectedLang] = useState<string>('es')
   const [translations, setTranslations] = useState<Record<string, Record<string, string>>>(() => {
     try {
@@ -1386,7 +1379,7 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
 
   const saveTranslations = (): void => {
     localStorage.setItem('customTranslations', JSON.stringify(translations))
-    alert('¡Interfaz guardada con éxito!')
+    alert('Interface salva com sucesso!')
   }
 
   const autoTranslate = async (fromLang: string, toLang: string): Promise<void> => {
@@ -1415,10 +1408,10 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
 
       setTranslations(newTranslations)
       setShowTranslationModal(false)
-      alert('¡Traducción automática completada para Interfaz!')
+      alert('Tradução automática concluída para Interface!')
     } catch (error) {
       console.error('Translation error:', error)
-      alert('Error al traducir automáticamente. Intenta de nuevo.')
+      alert('Erro ao traduzir automaticamente. Tente novamente.')
     } finally {
       setIsTranslating(false)
     }
@@ -1469,8 +1462,8 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxHeight: '50vh', overflowY: 'auto', paddingRight: '8px' }}>
         {uiStrings.map((key) => (
           <label key={key} style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '6px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-            {key === 'sectionLabel' && 'Etiqueta de la Sección de Festivales'}
-            {key === 'footerBrand' && 'Marca del Pie de Página'}
+            {key === 'sectionLabel' && 'Label da Seção de Festivais'}
+            {key === 'footerBrand' && 'Marca do Rodapé'}
             {key === 'aboutTitle' && 'Título Sobre Chiapas'}
             {key === 'aboutText' && 'Texto Sobre Chiapas'}
 
@@ -1512,7 +1505,7 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
             letterSpacing: '0.05em',
           }}
         >
-          {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduciendo...</> : <><Flag size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Traducir</>}
+          {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzindo...</> : <><Flag size={14} style={{ display: 'inline', marginRight: '4px' }} /> Auto-Traduzir</>}
         </button>
 
         <button
@@ -1531,7 +1524,7 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
             letterSpacing: '0.05em',
           }}
         >
-          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Guardar Interfaz
+          <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} /> Salvar Interface
         </button>
       </div>
 
@@ -1554,7 +1547,7 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
             <h3 style={{ color: 'var(--gold)', fontSize: '16px', textTransform: 'uppercase', margin: 0 }}>
               <Flag size={18} style={{ display: 'inline', marginRight: '8px', verticalAlign: 'middle' }} />
-              Elegir Idiomas para Traducción
+              Escolher Idiomas para Tradução
             </h3>
             <button
               onClick={() => setShowTranslationModal(false)}
@@ -1670,7 +1663,7 @@ const EditInterfazEditor: React.FC<EditInterfazEditorProps> = ({ lang = 'es' }) 
                 opacity: isTranslating ? 0.6 : 1,
               }}
             >
-              {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduciendo...</> : <><Check size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traducir</>}
+              {isTranslating ? <><X size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzindo...</> : <><Check size={14} style={{ display: 'inline', marginRight: '4px' }} /> Traduzir</>}
             </button>
           </div>
         </div>
@@ -1688,7 +1681,7 @@ const SocialEditor: React.FC<SocialEditorProps> = ({ socialLinks = {}, onUpdateS
 
   const handleSave = (): void => {
     onUpdateSocialLinks?.(localLinks)
-    alert('¡Redes Sociales actualizadas con éxito!')
+    alert('Redes Sociais atualizadas com sucesso!')
   }
 
   return (
@@ -1700,7 +1693,7 @@ const SocialEditor: React.FC<SocialEditorProps> = ({ socialLinks = {}, onUpdateS
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {/* Facebook */}
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '8px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          URL de Facebook
+          Facebook URL
           <input
             type="url"
             style={{
@@ -1720,7 +1713,7 @@ const SocialEditor: React.FC<SocialEditorProps> = ({ socialLinks = {}, onUpdateS
 
         {/* Instagram */}
         <label style={{ display: 'flex', flexDirection: 'column', fontSize: '12px', color: 'rgba(255,255,255,0.8)', gap: '8px', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          URL de Instagram
+          Instagram URL
           <input
             type="url"
             style={{
@@ -1779,9 +1772,87 @@ const SocialEditor: React.FC<SocialEditorProps> = ({ socialLinks = {}, onUpdateS
           }}
         >
           <Save size={16} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
-          Guardar Redes Sociales
+          Salvar Redes Sociais
         </button>
       </div>
+    </div>
+  )
+}
+
+/* ── HeroEditor ─────────────────────────────────────────────── */
+
+interface HeroEditorProps {
+  heroImage?: string | null
+  onUpdateHeroImage?: (url: string | null) => void
+}
+
+const HeroEditor: React.FC<HeroEditorProps> = ({ heroImage, onUpdateHeroImage }) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const handleFile = (files: FileList | null) => {
+    const file = files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const result = e.target?.result
+      if (typeof result === 'string') onUpdateHeroImage?.(result)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  return (
+    <div style={{ marginBottom: '28px', paddingBottom: '24px', borderBottom: '1px solid rgba(201,168,76,0.2)' }}>
+      <div style={{ fontSize: '12px', color: 'var(--gold)', fontFamily: 'Cinzel, serif', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <ImageIcon size={14} />
+        Imagem do Hero
+      </div>
+
+      {/* Current preview */}
+      <div
+        style={{ width: '100%', height: '140px', borderRadius: '8px', overflow: 'hidden', border: '1.5px solid rgba(201,168,76,0.3)', marginBottom: '12px', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', cursor: 'pointer' }}
+        onClick={() => inputRef.current?.click()}
+      >
+        {heroImage ? (
+          <img src={heroImage} alt="Hero atual" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        ) : (
+          <img src={logoSrc} alt="Logo padrão" style={{ width: '100px', height: 'auto', mixBlendMode: 'multiply' }} />
+        )}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0, transition: 'opacity 0.2s' }}
+          onMouseOver={e => (e.currentTarget.style.opacity = '1')}
+          onMouseOut={e => (e.currentTarget.style.opacity = '0')}
+        >
+          <span style={{ color: 'var(--gold)', fontFamily: 'Cinzel, serif', fontSize: '12px', letterSpacing: '0.08em' }}>Clique para trocar</span>
+        </div>
+      </div>
+
+      <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => handleFile(e.currentTarget.files)} />
+
+      <div style={{ display: 'flex', gap: '8px' }}>
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          style={{ flex: 1, padding: '8px 12px', border: '1.5px solid rgba(201,168,76,0.5)', borderRadius: '6px', background: 'rgba(201,168,76,0.08)', color: 'var(--gold)', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '11px', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'all 0.2s' }}
+        >
+          <ImageIcon size={12} style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
+          Trocar Imagem
+        </button>
+        {heroImage && (
+          <button
+            type="button"
+            onClick={() => onUpdateHeroImage?.(null)}
+            style={{ padding: '8px 12px', border: '1.5px solid rgba(255,100,100,0.4)', borderRadius: '6px', background: 'transparent', color: '#ff6464', cursor: 'pointer', fontFamily: 'Cinzel, serif', fontSize: '11px', letterSpacing: '0.06em', textTransform: 'uppercase', transition: 'all 0.2s' }}
+          >
+            <X size={12} style={{ display: 'inline', marginRight: '4px', verticalAlign: 'middle' }} />
+            Restaurar Logo
+          </button>
+        )}
+      </div>
+
+      {heroImage && (
+        <div style={{ marginTop: '8px', fontSize: '11px', color: 'rgba(201,168,76,0.6)', fontFamily: 'Cinzel, serif' }}>
+          ✓ Imagem personalizada ativa
+        </div>
+      )}
     </div>
   )
 }
@@ -1850,7 +1921,7 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ photos, onChange }) => {
         gap: '6px',
       }}>
         <ImageIcon size={14} />
-        Galería de Fotos
+        Galeria de Fotos
         <span style={{ color: 'rgba(201,168,76,0.6)', fontSize: '11px', textTransform: 'none', letterSpacing: 0 }}>
           ({photos.length} foto{photos.length !== 1 ? 's' : ''})
         </span>
@@ -1887,7 +1958,7 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ photos, onChange }) => {
         }}
       >
         <Plus size={15} />
-        Agregar Fotos
+        Adicionar Fotos
       </button>
 
       <input
@@ -1970,7 +2041,7 @@ const PhotoUploader: React.FC<PhotoUploaderProps> = ({ photos, onChange }) => {
               {/* Caption input */}
               <input
                 type="text"
-                placeholder="Leyenda..."
+                placeholder="Legenda..."
                 value={photo.caption || ''}
                 onChange={(e) => updateCaption(photo.id, e.target.value)}
                 style={{

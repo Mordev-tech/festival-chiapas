@@ -5,6 +5,7 @@ import LanguageSelector from './components/LanguageSelector'
 import Modal from './components/Modal'
 import Admin from './pages/Admin'
 import styles from './App.module.css'
+import logoSrc from './img/logo.jpeg'
 
 const App: FC = () => {
   const [lang, setLang] = useState<LanguageCode>('es')
@@ -47,12 +48,12 @@ const App: FC = () => {
     }
   })
 
-  // Text/data edits by admin to native festivals
-  const [nativeEdits, setNativeEdits] = useState<Record<string, Partial<import('./types').FestivalData>>>(() => {
+  // Admin-configurable hero image (null = use default logo)
+  const [heroImage, setHeroImage] = useState<string | null>(() => {
     try {
-      return JSON.parse(window.localStorage.getItem('ktch_nativeEdits') || '{}')
+      return window.localStorage.getItem('ktch_heroImage') || null
     } catch {
-      return {}
+      return null
     }
   })
 
@@ -76,13 +77,12 @@ const App: FC = () => {
     // Apply admin-added extra photos to native festivals
     const result: typeof base = {}
     for (const key of Object.keys(base)) {
-      const edits = nativeEdits[key] || {}
       result[key] = nativePhotos[key]
-        ? { ...base[key], ...edits, photos: nativePhotos[key] }
-        : { ...base[key], ...edits }
+        ? { ...base[key], photos: nativePhotos[key] }
+        : base[key]
     }
     return result
-  }, [baseT, customFestivals, nativePhotos, nativeEdits])
+  }, [baseT, customFestivals, nativePhotos])
 
   const modalData = modalKey ? mergedData[modalKey] : null
 
@@ -117,11 +117,15 @@ const App: FC = () => {
 
   useEffect(() => {
     try {
-      window.localStorage.setItem('ktch_nativeEdits', JSON.stringify(nativeEdits))
+      if (heroImage) {
+        window.localStorage.setItem('ktch_heroImage', heroImage)
+      } else {
+        window.localStorage.removeItem('ktch_heroImage')
+      }
     } catch {
       // ignorar erros de armazenamento
     }
-  }, [nativeEdits])
+  }, [heroImage])
 
   const handleLogin = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -266,7 +270,9 @@ const App: FC = () => {
 
       {/* TOP BAR */}
       <header className={styles.topBar}>
-        <div className={styles.logoMark}>K</div>
+        <div className={styles.logoMark}>
+          <img src={logoSrc} className={styles.logoImg} alt="K'inetik" />
+        </div>
         <span className={styles.siteTitle}>K'inetik Ta Chiapas</span>
         <LanguageSelector currentLang={lang} onChangeLang={setLang} />
         {loggedIn ? (
@@ -296,7 +302,11 @@ const App: FC = () => {
       {/* HERO */}
       <div className={styles.hero}>
         <div className={styles.heroPlaceholder}>
-          <img src="./src/img/HeroImage.jpeg" className={styles.heroStatue} />
+          <img
+            src={heroImage || logoSrc}
+            className={heroImage ? styles.heroStatueCover : styles.heroStatue}
+            alt="Hero"
+          />
         </div>
         <div className={styles.heroOverlay} />
       </div>
@@ -362,8 +372,8 @@ const App: FC = () => {
           onUpdateSocialLinks={setSocialLinks}
           nativePhotos={nativePhotos}
           onUpdateNativePhotos={(key, photos) => setNativePhotos((prev) => ({ ...prev, [key]: photos }))}
-          nativeEdits={nativeEdits}
-          onUpdateNativeData={(key, data) => setNativeEdits((prev) => ({ ...prev, [key]: { ...prev[key], ...data } }))}
+          heroImage={heroImage}
+          onUpdateHeroImage={setHeroImage}
         />
       )}
     </div>

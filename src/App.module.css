@@ -31,18 +31,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Cinzel", serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gold);
   flex-shrink: 0;
   box-shadow: 0 0 12px rgba(201, 168, 76, 0.3);
   transition: all 0.3s ease;
+  overflow: hidden;
+  background: #0a0a0a;
 }
 
 .logoMark:hover {
   box-shadow: 0 0 24px rgba(201, 168, 76, 0.5);
   transform: rotate(10deg);
+}
+
+.logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  display: block;
 }
 
 .siteTitle {
@@ -68,32 +74,45 @@
 .heroPlaceholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    #1a1208 0%,
-    #2a1e0a 40%,
-    #1a140a 70%,
-    #0d0d0d 100%
-  );
+  background: #0a0a0a;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
 
+/* Default mode: logo centered, blend-mode to remove white bg */
 .heroStatue {
-  opacity: 0.65;
-  width: 50%;
-  max-width: 400px;
+  opacity: 1;
+  width: 220px;
+  max-width: 55%;
   height: auto;
-  filter: sepia(0.8) saturate(0.4) brightness(1.1);
+  filter: none;
   user-select: none;
   transition: transform 0.4s ease;
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
+  mix-blend-mode: multiply;
+}
+
+/* Cover mode: when admin uploads a custom hero photo */
+.heroStatueCover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: normal;
+  animation: none;
+  transition: transform 0.4s ease;
 }
 
 .heroPlaceholder:hover .heroStatue {
-  transform: scale(1.08);
+  transform: scale(1.05);
+}
+
+.heroPlaceholder:hover .heroStatueCover {
+  transform: scale(1.03);
 }
 
 @keyframes float {
@@ -112,8 +131,8 @@
   }
 
   .heroStatue {
-    width: 70%;
-    max-width: 300px;
+    width: 160px;
+    max-width: 60%;
   }
 
   .topBar {
@@ -132,8 +151,8 @@
   }
 
   .heroStatue {
-    width: 80%;
-    max-width: 220px;
+    width: 130px;
+    max-width: 70%;
   }
 
   .topBar {
@@ -148,7 +167,6 @@
   .logoMark {
     width: 32px;
     height: 32px;
-    font-size: 11px;
   }
 }
 
@@ -157,9 +175,8 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0) 30%,
-    rgba(10, 10, 10, 0.98) 100%
+    rgba(0, 0, 0, 0) 0%,
+    rgba(10, 10, 10, 0.6) 100%
   );
   pointer-events: none;
 }
@@ -887,13 +904,7 @@
 .heroPlaceholder {
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    #1a1208 0%,
-    #2a1e0a 40%,
-    #1a140a 70%,
-    #0d0d0d 100%
-  );
+  background: #0a0a0a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -901,18 +912,35 @@
 }
 
 .heroStatue {
-  opacity: 0.65;
-  width: 70%;
-  max-width: 300px;
+  opacity: 1;
+  width: 180px;
+  max-width: 55%;
   height: auto;
-  filter: sepia(0.8) saturate(0.4) brightness(1.1);
+  filter: none;
   user-select: none;
   transition: transform 0.4s ease;
-  animation: float 3s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
+  mix-blend-mode: multiply;
+}
+
+.heroStatueCover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: normal;
+  animation: none;
+  transition: transform 0.4s ease;
 }
 
 .heroPlaceholder:hover .heroStatue {
-  transform: scale(1.08);
+  transform: scale(1.05);
+}
+
+.heroPlaceholder:hover .heroStatueCover {
+  transform: scale(1.03);
 }
 
 @keyframes float {
@@ -931,8 +959,8 @@
   }
 
   .heroStatue {
-    width: 80%;
-    max-width: 240px;
+    width: 130px;
+    max-width: 65%;
   }
 }
 
@@ -941,9 +969,8 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.15) 0%,
-    rgba(0, 0, 0, 0) 30%,
-    rgba(10, 10, 10, 0.98) 100%
+    rgba(0, 0, 0, 0) 0%,
+    rgba(10, 10, 10, 0.6) 100%
   );
   pointer-events: none;
 }
